@@ -65,11 +65,14 @@ link_subpack() {
 	# eval "find . -type f -not -name $file_cfg_sp $_file_link_list -printf \"%P\\n\""
 	_file_link_list=$(eval "find . -type f -not -name $file_cfg_sp $_file_link_list")
 	local _link_list=$(printf "$_dir_link_list\n$_file_link_list")
-  _link_list=$(sed "s/.\///"<<<$_link_list)
+	_link_list=$(sed "s/.\///" <<<$_link_list)
+	_link_list=$(sed "/^[[:space:]]*$/d" <<<$_link_list)
 	# printf "$_link_list"
 	#  exit
 	while read -r line; do
-		create_link "$line" "$_sp_target/$line"
+		if [[ $line != "" ]]; then
+			create_link "$line" "$_sp_target/$line"
+		fi
 	done <<<"$_link_list"
 	cd $prev_pwd
 	log_good "Linked...SubPack:$_sp_name"
