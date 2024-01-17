@@ -30,7 +30,7 @@ link_subpack() {
 	## Lets GO
 	cd $_sp_path
 	# Process directory liink link list
-	local _dir_link_rule=$(tail -n +2 "$_sp_cfg")
+	local _dir_link_rule=$(tail -n +2 "$_sp_cfg" | sed "/^\#/d")
 	local _dir_link_list=""
 	local _dir=""
 	local prev_pwd=$PWD
@@ -57,7 +57,7 @@ link_subpack() {
 	_dir_link_list=$(echo "$_dir_link_list" | sed '/^$/d')
 	# printf "$_dir_link_list"
 	# find files to link
-  # FIX: doent handle empty folder
+	# FIX: doent handle empty folder
 	local _file_link_list=$(sed 's/^/-not -path "/' <<<$_dir_link_list)
 	_file_link_list=$(sed 's/$/\/*"/' <<<$_file_link_list)
 	_file_link_list=$(echo $_file_link_list)

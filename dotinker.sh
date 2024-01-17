@@ -66,7 +66,7 @@ source $SCRIPT_DIR/lib/subpack.sh
 if [[ -z $dry_run ]]; then
 	[ $need_backup ] && create_backup_dir
 else
-	log_warn "This is a Dry Run ,nothing will changed"
+	log_warn "This is a Dry Run ,nothing will changed,you wont see your backup path"
 fi
 if [[ ! -d $base_pack_path ]]; then
 	log_error "Cant find Pack :$base_pack_name"

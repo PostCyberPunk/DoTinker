@@ -1,5 +1,5 @@
 link_cmd() {
-	log_info "Linking...$3 $(tput setaf 2)->$(tput sgr0) $_sp_name/$2"
+	log_info "Linking: $3 $(tput setaf 2)->$(tput sgr0) $_sp_name/$2"
 	if [[ -z "$dry_run" ]]; then
 		mkdir -p "$(dirname $3)"
 		ln -s "$1/$2" "$3"
@@ -33,9 +33,10 @@ create_link() {
 		fi
 		# backup folder
 	elif [[ -d $_link_target ]] || [[ -f $_link_target ]]; then
-		local _bak_path="$backup_dir/$(basename $_base_path)/$_src_path"
+    local _bak_path_short="$(basename $_base_path)/$_src_path"
+		local _bak_path="$backup_dir/$_bak_path_short"
 		if [[ ! -z $log_verbose ]]; then
-			log_warn "Backup... $_link_target to $_bak_path"
+			log_warn "Backup... $_link_target to BackupDir/$_bak_path_short"
 		fi
 		if [[ -z "$dry_run" ]]; then
 			mkdir -p $(dirname $_bak_path)
