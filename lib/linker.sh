@@ -1,8 +1,9 @@
 link_cmd() {
-	log_info "Linking: $3 $(tput setaf 2)->$(tput sgr0) $_sp_name/$2"
+	local __tgt_name="${3//$dot_prefix/\.}"
+	log_info "Linking: $__tgt_name $(tput setaf 2)->$(tput sgr0) $_sp_name/$2"
 	if [[ -z "$dry_run" ]]; then
-		mkdir -p "$(dirname $3)"
-		ln -s "$1/$2" "$3"
+		mkdir -p "$(dirname $__tgt_name)"
+		ln -s "$1/$2" "$__tgt_name"
 		if [[ $? -ne 0 ]]; then
 			# FIX: should change exit code
 			log_error "$_sp_name/$2 linking failed"
@@ -29,11 +30,11 @@ create_link() {
 			if [[ ! -z $log_verbose ]]; then
 				log_warn "Skiped $_link_target, Link exsisted"
 			fi
-      return
+			return
 		fi
 		# backup folder
 	elif [[ -d $_link_target ]] || [[ -f $_link_target ]]; then
-    local _bak_path_short="$(basename $_base_path)/$_src_path"
+		local _bak_path_short="$(basename $_base_path)/$_src_path"
 		local _bak_path="$backup_dir/$_bak_path_short"
 		if [[ ! -z $log_verbose ]]; then
 			log_warn "Backup... $_link_target to BackupDir/$_bak_path_short"
